@@ -1,0 +1,54 @@
+class Solution {
+    int maxCount;
+    public int maxUniqueSplit(String s) {
+        maxCount=0;
+        HashSet<String>set = new HashSet<>();
+        backtrack(s,set,0);
+        return maxCount;
+    }
+    // tc: n * 2^n
+    // sc: n substring
+    public void backtrack(String s, HashSet<String> set, int index){
+        //base case
+        int n = s.length();
+        if(index==n){
+            maxCount = Math.max(maxCount,set.size());
+            return;
+        }
+        //loop
+        for(int i=index;i<n;i++){
+            //check if substring is present in set or not
+            String sub = s.substring(index,i+1);
+            if(!set.contains(sub)){
+                set.add(sub);
+                backtrack(s,set,i+1);
+                set.remove(sub);
+            }
+        }
+    }
+    
+}
+
+
+/*
+Given a string s, return the maximum number of unique substrings that the given string can be split into.
+You can split string s into any list of non-empty substrings, where the concatenation of the substrings forms the original string. However, you must split the substrings such that all of them are unique.
+A substring is a contiguous sequence of characters within a string.
+
+Example 1:
+Input: s = "ababccc"
+Output: 5
+Explanation: One way to split maximally is ['a', 'b', 'ab', 'c', 'cc']. Splitting like ['a', 'b', 'a', 'b', 'c', 'cc'] is not valid as you have 'a' and 'b' multiple times.
+Example 2:
+Input: s = "aba"
+Output: 2
+Explanation: One way to split maximally is ['a', 'ba'].
+Example 3:
+Input: s = "aa"
+Output: 1
+Explanation: It is impossible to split the string any further.
+ 
+Constraints:
+1 <= s.length <= 16
+s contains only lower case English letters.
+*/
